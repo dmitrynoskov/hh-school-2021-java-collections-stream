@@ -4,10 +4,9 @@ import common.Person;
 import common.PersonService;
 import common.Task;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /*
 Задача 1
@@ -19,9 +18,14 @@ import java.util.stream.Collectors;
 public class Task1 implements Task {
 
   // !!! Редактируйте этот метод !!!
+  // ассимптотика O(n) по времени, O(n) по памяти (один доп. контейнер)
   private List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = PersonService.findPersons(personIds);
-    return Collections.emptyList();
+    Map<Integer, Person> idToPerson = persons.stream()
+            .collect(Collectors.toMap(Person::getId, person -> person));
+    return personIds.stream()
+            .map(idToPerson::get)
+            .toList();
   }
 
   @Override
